@@ -15,9 +15,13 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from django.shortcuts import redirect
+
+from .views import *
 
 
 urlpatterns = [
+    path('', redirect_blog),
     path('blog/', include('blog.urls')),
     path('admin/', admin.site.urls),
 ]

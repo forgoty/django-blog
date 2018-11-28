@@ -53,12 +53,16 @@
                 </div>
             </div>
         </div>
-        <div class="admin-panel align-items-center">
-            <a class="btn btn-outline-primary" href="/admin">Admin</a>
 
-            {% block admin-panel %}
-            {% endblock %}
+        {% if request.user.is_authenticated and request.user.is_staff %}
+            <div class="admin-panel align-items-center">
+                <a class="btn btn-outline-primary" href="/admin">Admin</a>
 
-        </div>
+                {% block admin-panel %}
+                {% endblock %}
+
+            </div>
+        {% endif %}
+
     </body>
 </html>

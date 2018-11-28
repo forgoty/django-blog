@@ -6,7 +6,7 @@
         <button type="button" class="btn btn-outline-secondary dropdown-toggle"
                 data-toggle="dropdown" aria-haspopup="true"
                 aria-expanded="false">
-            Create
+                Create
         </button>
         <div class="dropdown-menu">
             <a class="dropdown-item" href="{% url 'post_create_url' %}">Post</a>
@@ -16,12 +16,14 @@
 
     <a href="{{ admin_object.get_update_url }}"
         class="btn btn-outline-secondary edit"
-        style="{% if detail %}display: block;{% endif %}">Edit
+        style="{% if detail %}display: block;{% endif %}">
+        Edit
     </a>
 
     <a href="{{ admin_object.get_delete_url }}"
         class="btn btn-danger delete"
-        style="{% if detail %}display: block;{% endif %}">Delete
+        style="{% if detail %}display: block;{% endif %}">
+        Delete
     </a>
 
 {% endblock %}
