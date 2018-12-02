@@ -18,13 +18,14 @@
                     </div>
                 {% endif %}
 
-                {{ field.label }}
+                {{ field.label }}:
                 {{ field }}
 
             </div>
         {% endfor %}
 
-    <button type="submit" class="btn btn-secondary mt-3">Create Tag</button>
+    <button type="submit" class="btn btn-success mt-3">Create Tag</button>
+    <a class="btn btn-outline-secondary mt-3" href="{% url 'tags_list_url' %}">Cancel </a>
     </form>
 
 {% endblock %}

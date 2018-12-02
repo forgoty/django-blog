@@ -18,11 +18,12 @@
                 </div>
             {% endif %}
 
-            {{ field.label }}
+            {{ field.label }}:
             {{ field }}
         {% endfor %}
 
-        <button type="submit" name="button" class="btn btn-secondary mt-5">Create Post</button>
+        <button type="submit" name="button" class="btn btn-success mt-3">Create Post</button>
+        <a class="btn btn-outline-secondary mt-3" href="{% url 'posts_list_url' %}">Cancel </a>
     </form>
 
 
