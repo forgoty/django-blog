@@ -1,0 +1,28 @@
+
+/* Position*/
+.pagination {
+    padding-left: 25%;
+}
+
+/*Active button*/
+.page-item.active .page-link {
+    color: #6c757d;
+    background-color:  #FFFF;
+    border-color:  #EAEAE6;
+}
+
+/* Not active buttons */
+.page-link {
+    color: #6c757d;
+    background-color: #F5F5F5; /*whitesmoke */
+    border: 1px solid #dee2e6; /* darker whitesmoke */
+}
+
+/* Link under covering */
+.pagination > li > a:focus,
+.pagination > li > a:hover,
+.pagination > li > span:focus,
+.pagination > li > span:hover
+{
+    color: #343a40; /* dark gray */
+}

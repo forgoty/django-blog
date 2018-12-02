@@ -2,6 +2,7 @@ from django.views.generic import View
 from django.shortcuts import render, redirect
 from django.urls import reverse
 
+from django.conf import settings
 from .models import Post, Tag
 from .utils import *
 from .forms import TagForm, PostForm
@@ -36,10 +37,7 @@ class PostDelete(LoginRequiredMixin, ObjectDeleteMixin, View):
     redirect_url = 'posts_list_url'
     raise_exception = True
 
-
-def posts_list(request):
-    POSTS_ON_PAGE = 5
-
+def _get_posts(request):
     search_query = request.GET.get('search', '')
 
     if search_query:
@@ -48,6 +46,31 @@ def posts_list(request):
     else:
         posts = Post.objects.all()
 
+    return posts
+
+def _get_next_url(page):
+
+    if page.has_next():
+        next_url = '?page={}'.format(page.next_page_number())
+    else:
+        next_url = ''
+
+    return next_url
+
+def _get_prev_url(page):
+
+    if page.has_previous():
+            prev_url = '?page={}'.format(page.previous_page_number())
+    else:
+        prev_url = ''
+
+    return prev_url
+
+def posts_list(request):
+    POSTS_ON_PAGE = 5
+
+    posts = _get_posts(request)
+
     paginator = Paginator(posts, POSTS_ON_PAGE)
 
     #request.GET.get('page', 1 - default value if 'page' is not found)
@@ -55,15 +78,8 @@ def posts_list(request):
     page = paginator.get_page(page_number)
     is_paginated = page.has_other_pages()
 
-    if page.has_previous():
-        prev_url = '?page={}'.format(page.previous_page_number())
-    else:
-        prev_url = ''
-
-    if page.has_next():
-        next_url = '?page={}'.format(page.next_page_number())
-    else:
-        next_url = ''
+    next_url = _get_next_url(page)
+    prev_url = _get_prev_url(page)
 
     context = {
         'page_object': page,
@@ -103,4 +119,15 @@ class TagDelete(LoginRequiredMixin, ObjectDeleteMixin, View):
 def tags_list(request):
     tags = Tag.objects.all()
     return render(request, 'blog/tags_list.html', context={'tags': tags})
+
+def about_blog_link(request):
+    with open('{}{}{}'.format(settings.BASE_DIR,
+                                settings.STATIC_URL,
+                                'about.txt'), 'r') as file:
+        about = file.read()
+        
+    context = {
+        'about': about
+    }
+    return render(request, 'blog/about.html', context=context)
 
