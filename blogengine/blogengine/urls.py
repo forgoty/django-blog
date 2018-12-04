@@ -16,6 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from django.shortcuts import redirect
+from django.conf.urls import handler404
 
 from .views import *
 
@@ -25,3 +26,5 @@ urlpatterns = [
     path('blog/', include('blog.urls')),
     path('admin/', admin.site.urls),
 ]
+
+handler404 = "blog.views.my_handler404"

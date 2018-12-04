@@ -103,3 +103,7 @@ def about_blog_link(request):
     }
     return render(request, 'blog/about.html', context=context)
 
+
+def my_handler404(request, exception):
+    data = {'123': '123'}
+    return render(request, "blog/404.html", data)
