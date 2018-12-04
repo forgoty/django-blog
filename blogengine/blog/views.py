@@ -1,16 +1,15 @@
-from django.views.generic import View, FormView
+from django.views.generic import View
 from django.shortcuts import render, redirect
 from django.urls import reverse
-
 from django.conf import settings
+
+from .modules.privates import *
 from .models import Post, Tag
 from .utils import *
 from .forms import TagForm, PostForm
 
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.paginator import Paginator
-
-from django.db.models import Q
 
 
 class PostDetail(ObjectDetailMixin, View):
@@ -37,39 +36,11 @@ class PostDelete(LoginRequiredMixin, ObjectDeleteMixin, View):
     redirect_url = 'posts_list_url'
     raise_exception = True
 
-def _get_posts(request):
-    search_query = request.GET.get('search', '')
-
-    if search_query:
-        posts = Post.objects.filter(Q(title__icontains=search_query) |
-                                    Q(body__icontains=search_query))
-    else:
-        posts = Post.objects.all()
-
-    return posts
-
-def _get_next_url(page):
-
-    if page.has_next():
-        next_url = '?page={}'.format(page.next_page_number())
-    else:
-        next_url = ''
-
-    return next_url
-
-def _get_prev_url(page):
-
-    if page.has_previous():
-            prev_url = '?page={}'.format(page.previous_page_number())
-    else:
-        prev_url = ''
-
-    return prev_url
 
 def posts_list(request):
     POSTS_ON_PAGE = 5
 
-    posts = _get_posts(request)
+    posts = get_posts(request)
 
     paginator = Paginator(posts, POSTS_ON_PAGE)
 
@@ -78,8 +49,8 @@ def posts_list(request):
     page = paginator.get_page(page_number)
     is_paginated = page.has_other_pages()
 
-    next_url = _get_next_url(page)
-    prev_url = _get_prev_url(page)
+    next_url = get_next_url(page)
+    prev_url = get_prev_url(page)
 
     context = {
         'page_object': page,
@@ -119,6 +90,7 @@ class TagDelete(LoginRequiredMixin, ObjectDeleteMixin, View):
 def tags_list(request):
     tags = Tag.objects.all()
     return render(request, 'blog/tags_list.html', context={'tags': tags})
+
 
 def about_blog_link(request):
     with open('{}{}{}'.format(settings.BASE_DIR,

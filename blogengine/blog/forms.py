@@ -29,7 +29,7 @@ class TagForm(forms.ModelForm):
 
 
 class PostForm(forms.ModelForm):
-    title = forms.TextInput(attrs={'class': 'form-control'})
+    title = forms.TextInput(attrs={'class': 'form-control'}),
     body = forms.CharField(widget=PagedownWidget(show_preview=False))
     tags = forms.SelectMultiple(attrs={'class': 'form-control'})
 
