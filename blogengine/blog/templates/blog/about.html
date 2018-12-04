@@ -4,10 +4,11 @@
     About - {{ block.super }}
 {% endblock %}
 
+
 {% block content %}
-    <p style="font-size: 20px;text-align: center; white-space: pre-line;">
-        {{ about }}
-    </p>
+
+    <div class="content-markdown ml-3">{{ about }}</div>
+
 {% endblock %}
 
 
