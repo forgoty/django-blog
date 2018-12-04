@@ -1,15 +1,15 @@
 from django.views.generic import View
 from django.shortcuts import render, redirect
 from django.urls import reverse
+from django.conf import settings
 
+from .modules.privates import *
 from .models import Post, Tag
 from .utils import *
 from .forms import TagForm, PostForm
 
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.paginator import Paginator
-
-from django.db.models import Q
 
 
 class PostDetail(ObjectDetailMixin, View):
@@ -40,13 +40,7 @@ class PostDelete(LoginRequiredMixin, ObjectDeleteMixin, View):
 def posts_list(request):
     POSTS_ON_PAGE = 5
 
-    search_query = request.GET.get('search', '')
-
-    if search_query:
-        posts = Post.objects.filter(Q(title__icontains=search_query) |
-                                    Q(body__icontains=search_query))
-    else:
-        posts = Post.objects.all()
+    posts = get_posts(request)
 
     paginator = Paginator(posts, POSTS_ON_PAGE)
 
@@ -55,15 +49,8 @@ def posts_list(request):
     page = paginator.get_page(page_number)
     is_paginated = page.has_other_pages()
 
-    if page.has_previous():
-        prev_url = '?page={}'.format(page.previous_page_number())
-    else:
-        prev_url = ''
-
-    if page.has_next():
-        next_url = '?page={}'.format(page.next_page_number())
-    else:
-        next_url = ''
+    next_url = get_next_url(page)
+    prev_url = get_prev_url(page)
 
     context = {
         'page_object': page,
@@ -104,3 +91,19 @@ def tags_list(request):
     tags = Tag.objects.all()
     return render(request, 'blog/tags_list.html', context={'tags': tags})
 
+
+def about_blog_link(request):
+    with open('{}{}{}'.format(settings.BASE_DIR,
+                                settings.STATIC_URL,
+                                'about.md'), 'r') as file:
+        about = file.read()
+
+    context = {
+        'about': about
+    }
+    return render(request, 'blog/about.html', context=context)
+
+
+def my_handler404(request, exception):
+    data = {'123': '123'}
+    return render(request, "blog/404.html", data)

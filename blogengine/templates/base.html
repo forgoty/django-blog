@@ -3,52 +3,98 @@
 <html lang="en" dir="ltr">
     <head>
         <meta charset="utf-8">
-        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/0.5.2/marked.min.js"></script>
+
+        <script type="text/javascript">
+            $(document).ready(function() {
+                $(".content-markdown").each(function() {
+                    var content = $(this).text();
+                    var markedContent = marked(content);
+                    $(this).html(markedContent)
+                })
+
+                $("img").each(function() {
+                    $(this).addClass('img-fluid')
+                })
+
+
+                var contentInput = $("#id_body");
+                function setContent(value){
+                    var markedContent = marked(value)
+                    $("#preview-body").html(markedContent)
+                    $("#preview-body img").each(function(){
+                        $(this).addClass("img-fluid")
+                    })
+                }
+                setContent(contentInput.val())
+                contentInput.keyup(function(){
+                    var newContent = $(this).val()
+                    setContent(newContent)
+                })
+                var titleInput = $("#id_title");
+
+                function setTitle(value) {
+                    $("#preview-title").text(value)
+                }
+                setTitle(titleInput.val())
+                titleInput.keyup(function(){
+                    var newContent = $(this).val()
+                    setTitle(newContent)
+                })
+
+            })﻿
+
+        </script>
+
         <link rel="stylesheet"
-            href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
-            integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
-            crossorigin="anonymous">
+        href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+        integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+        crossorigin="anonymous">
+        <link rel="stylesheet" href="{% static "css/pagination.css" %}">
         <link rel="stylesheet" href="{% static "css/styles.css" %}">
+        <link rel="stylesheet" href="{% static "css/pagedownwidgetfix.css" %}">
         <title>
             {% block title %}
-                Blog Engine
+                Blog
             {% endblock %}
         </title>
+    {% block extra_head %}{% endblock %}
     </head>
     <body>
         <nav class="navbar navbar-expand-lg navbar-light bg-light style="background-color: #e3f2fd;"">
-            <a class="navbar-brand" href="#">Navbar</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
 
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav mr-auto">
-                    <li class="nav-item active">
+
+                    <li {% if request.path == '/blog/' %} class="nav-item active" {% else %}class="nav-item"{% endif %}>
                         <a class="nav-link" href="{% url 'posts_list_url' %}">Posts</a>
                     </li>
-                    <li class="nav-item">
+
+                    <li {% if request.path == '/blog/tags/' %} class="nav-item active" {% else %}class="nav-item"{% endif %}>
                         <a class="nav-link" href="{% url 'tags_list_url' %}">Tags</a>
                     </li>
 
-                    <li class="nav-item">
-                        <a class="nav-link disabled" href="#">Disabled</a>
+                    <li {% if request.path == '/blog/about/' %} class="nav-item active" {% else %}class="nav-item"{% endif %}>
+                        <a class="nav-link" href="{% url 'about_blog' %}">About</a>
                     </li>
                 </ul>
+
                 <form class="form-inline my-2 my-lg-0" action="{% url 'posts_list_url' %}">
                     <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="search">
-                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                    <button class="btn btn-outline-secondary my-2 my-sm-0" type="submit">Search</button>
                 </form>
+
             </div>
         </nav>
 
         <div class="container mt-5">
             <div class="row">
-                <div class="col-6 offset-md-2">
+                <div class="col-7 offset-md-2">
                     {% block content %}
-                        There is no spoon
+
                     {% endblock %}
                 </div>
             </div>

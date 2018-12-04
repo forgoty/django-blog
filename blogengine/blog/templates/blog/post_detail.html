@@ -6,10 +6,22 @@
 {% endblock %}
 
 {% block content %}
-    <h1 class="mt-5">
-        {{ post.title }}
-    </h1>
-    <p>
-        {{ post.body }}    
-    </p>
+
+    <div class="card mb-4" style="border: #FFFF">
+        <h4>{{ post.title }}</h4>
+        <footer class="blockquote-footer">{{ post.date_pub }}</footer><hr/>
+        <div class="card-body">
+            <p class="content-markdown">{{ post.body }}</p>
+        </div>
+
+        <div class="card-footer text-muted" style="border: initial">
+            Tags:
+            {% for tag in post.tags.all %}
+            <a href="{{ tag.get_absolute_url }}" class="btn btn-secondary btn-sm">{{ tag.title }}</a>
+            {% endfor %}
+        </div>
+        
+    </div>
+
+
 {% endblock %}
