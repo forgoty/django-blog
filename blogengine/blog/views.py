@@ -1,3 +1,5 @@
+import os
+
 from django.views.generic import View
 from django.shortcuts import render, redirect
 from django.urls import reverse
@@ -93,9 +95,8 @@ def tags_list(request):
 
 
 def about_blog_link(request):
-    with open('{}{}{}'.format(settings.BASE_DIR,
-                                settings.STATIC_URL,
-                                'about.md'), 'r') as file:
+    path = os.path.join(settings.BASE_DIR, 'static/about.md') 
+    with open(path, 'r') as file:
         about = file.read()
 
     context = {
