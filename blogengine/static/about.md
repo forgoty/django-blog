@@ -1,64 +1,98 @@
-# reimaging
-reimaging is simple photo downloader/uploader for vk.com using CLI for UNIX.
-### Requirements
-- Python 3.7
-- pyvk (https://github.com/mkuznets/pyvk)
-- tqdm
+# An exhibit of Markdown
 
-```sh
-$ pip install git+https://github.com/mkuznets/pyvk.git
-$ pip install tqdm
-```
+This note demonstrates some of what [Markdown][1] is capable of doing.
 
-### Installation
-Just cd to source folder and type:
-```sh
-$ python setup.py install
-```
+*Note: Feel free to play with this page. Unlike regular notes, this doesn&#39;t automatically save 
+itself.*
 
-### Using
-First of all, view help:
-```sh
-$ reimaging --help
-$ reimaging download --help #for download help
-$ reimaging upload --help #for upload help
-```
-You will need an owner ID and album ID. Album ID is optional.
+## Basic formatting
 
-![N|Solid](https://image.ibb.co/fRpaDo/image.png)
+Paragraphs can be written like so. A paragraph is the basic block of Markdown. A paragraph is what 
+text will turn into when there is no reason it should become anything else.
 
-First number - owner ID (1).
-Second number - album ID (136592355).
+Paragraphs must be separated by a blank line. Basic formatting of *italics* and **bold** is 
+supported. This *can be **nested** like* so.
 
-If you want to download group photo:
+## Lists
 
-![N|Solid](https://image.ibb.co/gGoJve/image.png)
+### Ordered list
 
-Owner ID will be with "-".
+1. Item 1
+2. A second item
+3. Number 3
+4. Ⅳ
 
-If you want to download system albums, but not them all, you can use **--system** and **--album_id** with next album_id`s:
-* **-6** - for profile`s photos
-* **-7** - for wall photos
-* **-15** - for saved photos
+*Note: the fourth item uses the Unicode character for [Roman numeral four][2].*
 
-Unfortunately, VK API do not allow to download more than 1000 photos.
+### Unordered list
 
-### Launch Examples
-```sh
-$ reimaging download -o 53083705 -p ~/download-folder --album_id 255217256 #download single album of owner by ID`s
-$ reimaging download -o 1 #download all albums
-$ reimaging download -o -17566514 # for group albums
-$ reimaging download -a -o "owner id" #Downloading with login
-$ reimaging download -a -o "owner id" --system #for download all albums including system albums too.
-$ reimaging download -a -o "owner id" --system --album_id -15 # for downloading saved photos album
-$ reimaging upload -p "path" -t "title" #Upload photos from "path" to Album with "title"
-$ reimaging upload -p "path" --album_id "album_id" # Update Album with "album_id" with photos form "path"
-```
+* An item
+* Another item
+* Yet another item
+* And there&#39;s more...
 
-### Todos
+## Paragraph modifiers
 
- - More testing
- - Make it for Windows
- - Rewrite using AsyncIO
+### Code block
 
-For any problems and bugs please report to Issues.
+    Code blocks are very useful for developers and other people who look at code or other things 
+that are written in plain text. As you can see, it uses a fixed-width font.
+
+You can also make `inline code` to add code into other things.
+
+### Quote
+
+&gt; Here is a quote. What this is should be self explanatory. Quotes are automatically indented 
+when they are used.
+
+## Headings
+
+There are six levels of headings. They correspond with the six levels of HTML headings. You&#39;ve 
+probably noticed them already in the page. Each level down uses one more hash character.
+
+### Headings *can* also contain **formatting**
+
+### They can even contain `inline code`
+
+Of course, demonstrating what headings look like messes up the structure of the page.
+
+I don&#39;t recommend using more than three or four levels of headings here, because, when 
+you&#39;re smallest heading isn&#39;t too small, and you&#39;re largest heading isn&#39;t too big, 
+and you want each size up to look noticeably larger and more important, there there are only so 
+many sizes that you can use.
+
+## URLs
+
+URLs can be made in a handful of ways:
+
+* A named link to [MarkItDown][3]. The easiest way to do these is to select what you want to make a 
+link and hit `Ctrl+L`.
+* Another named link to [MarkItDown](http://www.markitdown.net/)
+* Sometimes you just want a URL like &lt;http://www.markitdown.net/&gt;.
+
+## Horizontal rule
+
+A horizontal rule is a line that goes across the middle of the page.
+
+---
+
+It&#39;s sometimes handy for breaking things up.
+
+## Images
+
+Markdown can also contain images. ![Image of 
+Yaktocat](https://octodex.github.com/images/yaktocat.png)
+
+## Finally
+
+There&#39;s actually a lot more to Markdown than this. See the official [introduction][4] and 
+[syntax][5] for more information. However, be aware that this is not using the official 
+implementation, and this might work subtly differently in some of the little things.
+
+
+  [1]: http://daringfireball.net/projects/markdown/
+  [2]: http://www.fileformat.info/info/unicode/char/2163/index.htm
+  [3]: http://www.markitdown.net/
+  [4]: http://daringfireball.net/projects/markdown/basics
+  [5]: http://daringfireball.net/projects/markdown/syntax
+  

@@ -1,3 +1,4 @@
+from unidecode import unidecode
 from django.db import models
 from django.shortcuts import reverse
 from django.utils.text import slugify
@@ -6,8 +7,8 @@ from time import time
 
 
 def gen_post_slug(s):
-    new_slug = slugify(s, allow_unicode=True)
-    return '{}-{}'.format(new_slug, str(int(time())))
+    new_slug = slugify(s)
+    return '{}-{}'.format(unidecode(new_slug), str(int(time())))
 
 
 class Post(models.Model):
@@ -46,7 +47,7 @@ class Tag(models.Model):
         return self.title
 
     def save(self, *args, **kwargs):
-            self.slug = slugify(self.title, allow_unicode=True)
+            self.slug = slugify(unidecode(self.title))
             super().save(*args, **kwargs)
 
     def get_absolute_url(self):

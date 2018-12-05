@@ -1,3 +1,4 @@
+import re
 from django import forms
 from django.core.exceptions import ValidationError
 
@@ -5,6 +6,7 @@ from pagedown.widgets import PagedownWidget
 
 from .models import Tag, Post
 
+SLUG_REGEX = re.compile('^[-\w]+$')
 
 class TagForm(forms.ModelForm):
 
@@ -16,8 +18,11 @@ class TagForm(forms.ModelForm):
         }
 
     def clean_title(self):
-        ''' This function validate slug of a new tag '''
+        ''' This function validate slug of a new tag'''
         new_slug = self.cleaned_data['title'].lower()
+
+        if not SLUG_REGEX.findall(new_slug):
+            raise ValidationError('Tag cannot consist special symbols')
 
         if new_slug == 'create':
             raise ValidationError('Tag cannot be named "{}"'.format(new_slug))

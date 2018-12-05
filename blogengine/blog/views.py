@@ -95,7 +95,7 @@ def tags_list(request):
 
 
 def about_blog_link(request):
-    path = os.path.join(settings.BASE_DIR, 'static/about.md') 
+    path = os.path.join(settings.BASE_DIR, 'static/about.md')
     with open(path, 'r') as file:
         about = file.read()
 
@@ -108,3 +108,4 @@ def about_blog_link(request):
 def my_handler404(request, exception):
     data = {'123': '123'}
     return render(request, "blog/404.html", data)
+    
