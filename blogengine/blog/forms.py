@@ -8,6 +8,7 @@ from .models import Tag, Post
 
 SLUG_REGEX = re.compile('^[-\w]+$')
 
+
 class TagForm(forms.ModelForm):
 
     class Meta:
@@ -22,7 +23,7 @@ class TagForm(forms.ModelForm):
         new_slug = self.cleaned_data['title'].lower()
 
         if not SLUG_REGEX.findall(new_slug):
-            raise ValidationError('Tag cannot consist special symbols')
+            raise ValidationError('Tag cannot contain special characters')
 
         if new_slug == 'create':
             raise ValidationError('Tag cannot be named "{}"'.format(new_slug))

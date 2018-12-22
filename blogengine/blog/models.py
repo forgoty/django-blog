@@ -1,9 +1,9 @@
-from unidecode import unidecode
 from django.db import models
 from django.shortcuts import reverse
 from django.utils.text import slugify
 
 from time import time
+from unidecode import unidecode
 
 
 def gen_post_slug(s):
@@ -61,7 +61,3 @@ class Tag(models.Model):
 
     class Meta:
         ordering = ['title']
-
-
-
-
