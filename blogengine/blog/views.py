@@ -1,3 +1,5 @@
+import os
+
 from django.views.generic import View
 from django.shortcuts import render, redirect
 from django.urls import reverse
@@ -41,10 +43,8 @@ def posts_list(request):
     POSTS_ON_PAGE = 5
 
     posts = get_posts(request)
-
     paginator = Paginator(posts, POSTS_ON_PAGE)
 
-    #request.GET.get('page', 1 - default value if 'page' is not found)
     page_number = request.GET.get('page', 1)
     page = paginator.get_page(page_number)
     is_paginated = page.has_other_pages()
@@ -89,21 +89,19 @@ class TagDelete(LoginRequiredMixin, ObjectDeleteMixin, View):
 
 def tags_list(request):
     tags = Tag.objects.all()
-    return render(request, 'blog/tags_list.html', context={'tags': tags})
+    context = {'tags': tags}
+    return render(request, 'blog/tags_list.html', context=context)
 
 
 def about_blog_link(request):
-    with open('{}{}{}'.format(settings.BASE_DIR,
-                                settings.STATIC_URL,
-                                'about.md'), 'r') as file:
+    path = os.path.join(settings.BASE_DIR, 'static/about.md')
+    
+    with open(path, 'r') as file:
         about = file.read()
 
-    context = {
-        'about': about
-    }
+    context = {'about': about}
     return render(request, 'blog/about.html', context=context)
 
 
 def my_handler404(request, exception):
-    data = {'123': '123'}
-    return render(request, "blog/404.html", data)
+    return render(request, "blog/404.html")

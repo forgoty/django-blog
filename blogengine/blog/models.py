@@ -3,11 +3,14 @@ from django.shortcuts import reverse
 from django.utils.text import slugify
 
 from time import time
+from unidecode import unidecode
+
+from .modules.read_time import get_read_time
 
 
 def gen_post_slug(s):
-    new_slug = slugify(s, allow_unicode=True)
-    return '{}-{}'.format(new_slug, str(int(time())))
+    new_slug = slugify(s)
+    return '{}-{}'.format(unidecode(new_slug), str(int(time())))
 
 
 class Post(models.Model):
@@ -15,6 +18,7 @@ class Post(models.Model):
     slug = models.SlugField(max_length=50, blank=True, unique=True)
     body = models.TextField(blank=True, db_index=True)
     date_pub = models.DateTimeField(auto_now_add=True)
+    read_time = models.TimeField(null=True, blank=True)
     tags = models.ManyToManyField("Tag", blank=True, related_name="posts")
 
     def __str__(self):
@@ -23,6 +27,10 @@ class Post(models.Model):
     def save(self, *args, **kwargs):
         if not self.id:
             self.slug = gen_post_slug(self.title)
+
+        if self.body:
+            self.read_time = get_read_time(self.body)
+
         super().save(*args, **kwargs)
 
     def get_absolute_url(self):
@@ -46,7 +54,7 @@ class Tag(models.Model):
         return self.title
 
     def save(self, *args, **kwargs):
-            self.slug = slugify(self.title, allow_unicode=True)
+            self.slug = slugify(unidecode(self.title))
             super().save(*args, **kwargs)
 
     def get_absolute_url(self):
@@ -60,7 +68,3 @@ class Tag(models.Model):
 
     class Meta:
         ordering = ['title']
-
-
-
-

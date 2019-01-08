@@ -1,5 +1,6 @@
 ''' Here is module with private functions, designed for developer
 purposes'''
+
 from django.db.models import Q
 
 from blog.models import Post

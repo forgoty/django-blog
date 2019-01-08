@@ -8,10 +8,12 @@ class ObjectDetailMixin:
 
     def get(self, request, slug):
         obj = get_object_or_404(self.model, slug__iexact=slug)
-        return render(request, self.template,
-                        context={self.model.__name__.lower(): obj,
-                                'admin_object': obj,
-                                'detail': True})
+        context = {
+                    self.model.__name__.lower(): obj,
+                    'admin_object': obj,
+                    'detail': True}
+
+        return render(request, self.template, context=context)
 
 
 class ObjectCreateMixin:
@@ -20,7 +22,8 @@ class ObjectCreateMixin:
 
     def get(self, request):
         form = self.model_form()
-        return render(request, self.template, context={'form': form})
+        context = {'form': form}
+        return render(request, self.template, context=context)
 
     def post(self, request):
         bound_form = self.model_form(request.POST)
@@ -29,7 +32,8 @@ class ObjectCreateMixin:
             new_obj = bound_form.save()
             return redirect(new_obj)
 
-        return render(request, self.template, context={'form': bound_form})
+        context = {'form': bound_form}
+        return render(request, self.template, context=context)
 
 
 class ObjectUpdateMixin:
@@ -40,8 +44,8 @@ class ObjectUpdateMixin:
     def get(self, request, slug):
         obj = self.model.objects.get(slug__iexact=slug)
         bound_form = self.model_form(instance=obj)
-        return render(request, self.template,
-                context={'form': bound_form, self.model.__name__.lower(): obj})
+        context = {'form': bound_form, self.model.__name__.lower(): obj}
+        return render(request, self.template, context=context)
 
     def post(self, request, slug):
         obj = self.model.objects.get(slug__iexact=slug)
@@ -51,8 +55,8 @@ class ObjectUpdateMixin:
             new_obj = bound_form.save()
             return redirect(new_obj)
 
-        return render(request, self.template,
-            context={'form': bound_form, self.model.__name__.lower(): obj})
+        context = {'form': bound_form, self.model.__name__.lower(): obj}
+        return render(request, self.template, context=context)
 
 
 class ObjectDeleteMixin:
@@ -62,8 +66,8 @@ class ObjectDeleteMixin:
 
     def get(self, request, slug):
         obj = self.model.objects.get(slug__iexact=slug)
-        return render(request, self.template,
-                        context={self.model.__name__.lower(): obj})
+        context = {self.model.__name__.lower(): obj}
+        return render(request, self.template, context=context)
 
     def post(self, request, slug):
         obj = self.model.objects.get(slug__iexact=slug)
