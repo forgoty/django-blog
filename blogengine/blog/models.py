@@ -8,11 +8,6 @@ from unidecode import unidecode
 from .modules.read_time import get_read_time
 
 
-def gen_post_slug(s):
-    new_slug = slugify(s)
-    return '{}-{}'.format(unidecode(new_slug), str(int(time())))
-
-
 class Post(models.Model):
     title = models.CharField(max_length=150, db_index=True)
     slug = models.SlugField(max_length=50, blank=True, unique=True)
@@ -26,7 +21,7 @@ class Post(models.Model):
 
     def save(self, *args, **kwargs):
         if not self.id:
-            self.slug = gen_post_slug(self.title)
+            self.slug = slugify(unidecode(self.title))
 
         if self.body:
             self.read_time = get_read_time(self.body)

@@ -24,6 +24,7 @@ from .views import *
 urlpatterns = [
     path('', redirect_blog),
     path('blog/', include('blog.urls')),
+    path('api/', include('api.urls')),
     path('admin/', admin.site.urls),
 ]
 
