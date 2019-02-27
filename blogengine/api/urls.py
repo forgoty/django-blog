@@ -4,15 +4,15 @@ from .views import *
 
 
 urlpatterns = [
-    path('', PostListAPIView.as_view(), name='list'),
-    path('<str:pk>/', PostDetailAPIView.as_view(), name='detail'),
-    # path('post/create/', PostCreate.as_view(), name='post_create_url'),
-    # path('post/<str:slug>/', PostDetail.as_view(), name='post_detail_url'),
-    # path('post/<str:slug>/update/', PostUpdate.as_view(),
-    #                                 name='post_update_url'),
-    #
-    # path('post/<str:slug>/delete/', PostDelete.as_view(),
-    #                                 name='post_delete_url'),
+    path('posts/', PostListAPIView.as_view(), name='api.post_list'),
+    path('post/create/', PostCreateAPIView.as_view(), name='api.post_create'),
+    path('post/<str:slug>/', PostDetailAPIView.as_view(),
+                                                    name='api.post_detail'),
+    path('post/<str:slug>/update/', PostUpdateAPIView.as_view(),
+                                                    name='api.post_update'),
+
+    path('post/<str:slug>/delete/', PostDeleteAPIView.as_view(),
+                                                    name='api.post_delete'),
     #
     # path('tags/', tags_list, name='tags_list_url'),
     # path('tag/create/', TagCreate.as_view(), name='tag_create_url'),
