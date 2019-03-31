@@ -43,4 +43,15 @@ class PostForm(forms.ModelForm):
         model = Post
         fields = ['title', 'body', 'tags']
 
+    def clean_title(self):
+        new_slug = self.cleaned_data['title'].lower()
+
+        if new_slug == 'create':
+            raise ValidationError('Post cannot be named "{}"'.format(new_slug))
+
+        if Post.objects.filter(slug__iexact=new_slug).count():
+            raise ValidationError('"{}" already exists'.format(new_slug))
+
+        return new_slug
+
 
