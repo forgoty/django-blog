@@ -1,4 +1,5 @@
 from django.urls import path
+from rest_framework.authtoken import views
 
 from .views import *
 
@@ -18,4 +19,5 @@ urlpatterns = [
     path('tag/create/', TagCreateAPIView.as_view(), name='api.tag_create'),
     path('tag/<str:slug>/update/', TagUpdateAPIView.as_view(), name='api.tag_update'),
     path('tag/<str:slug>/delete/', TagDeleteAPIView.as_view(), name='api.tag_delete'),
+    path('auth/', views.obtain_auth_token),
 ]
