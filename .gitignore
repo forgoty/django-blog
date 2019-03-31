@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 *.pyc
 *.sqlite3
 =======
@@ -118,4 +117,3 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
->>>>>>> 9b86fb2127ffb089e740b0052b1ab02acdf44eaa

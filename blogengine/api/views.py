@@ -6,7 +6,7 @@ from rest_framework.generics import (
     DestroyAPIView,
 )
 
-from blog.models import Post
+from blog.models import Post, Tag
 from .serializers import *
 
 
@@ -35,4 +35,27 @@ class PostUpdateAPIView(UpdateAPIView):
 class PostDeleteAPIView(DestroyAPIView):
     queryset = Post.objects.all()
     serializer_class = PostSerializer
+    lookup_field = 'slug'
+
+
+class TagListAPIView(ListAPIView):
+    queryset = Tag.objects.all()
+    serializer_class = TagSerializer
+
+
+class TagCreateAPIView(CreateAPIView):
+    queryset = Tag.objects.all()
+    serializer_class = TagSerializer
+    lookup_field = 'slug'
+
+
+class TagUpdateAPIView(UpdateAPIView):
+    queryset = Tag.objects.all()
+    serializer_class = TagSerializer
+    lookup_field = 'slug'
+
+
+class TagDeleteAPIView(DestroyAPIView):
+    queryset = Tag.objects.all()
+    serializer_class = TagSerializer
     lookup_field = 'slug'
